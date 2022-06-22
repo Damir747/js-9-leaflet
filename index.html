@@ -1,0 +1,70 @@
+<!-- Leaflet Работа с картой -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="style.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" crossorigin=""></script>
+
+
+	<title>Document</title>
+</head>
+
+<body>
+	<script src="script.js"></script>
+	<button>Нажми меня!</button>
+	<div id='map' style='width: 600px; height: 400px;'></div>
+	<script>
+		var map = L.map('map').setView([55.6452647, 37.6641371], 13);
+
+		var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map);
+
+		var marker1 = L.marker([55.6502081, 37.6621211]).addTo(map);
+		var marker2 = L.marker([55.6472563, 37.6527272]).addTo(map);
+
+		var circle = L.circle([55.643330, 37.654873], {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5,
+			radius: 900
+		}).addTo(map);
+
+		var polygon = L.polygon([
+			[55.6502081, 37.6621211],
+			[55.6472563, 37.6527272],
+			[55.643330, 37.654873]
+		]).addTo(map);
+
+		marker1.bindPopup("<b>МИФИ</b><br>Я здесь учился").openPopup();
+		marker2.bindPopup("<b>Лицей при МИФИ</b><br>Я здесь учился").openPopup();
+		circle.bindPopup("Сфера моих территориальных интересов");
+		polygon.bindPopup("Полигон интересов");
+
+		var popup = L.popup()
+			.setLatLng([55.644758, 37.674179])
+			.setContent("Каширское шоссе")
+			.openOn(map);
+
+		var popup = L.popup();
+
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent("Ты кликнул " + e.latlng.toString())
+				.openOn(map);
+		}
+
+		map.on('click', onMapClick);
+
+	</script>
+
+</body>
+
+</html>
